@@ -5,7 +5,7 @@ export const useUserStore = defineStore('user', () => {
     const isAuthenticated = ref(false)
     const count = ref(0)
     const doubleCount = computed(() => count.value * 2)
-    function increment() {
+    function registerUser() {
         count.value++
     }
 
