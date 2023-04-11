@@ -4,7 +4,7 @@ import LoginBlock from "../components/auth/LoginBlock.vue";
 import RegisterBlock from "../components/auth/RegisterBlock.vue";
 import Welcome from "../components/Welcome.vue";
 
-const isRegistering = ref(false)
+const isRegistering = ref(true)
 const newsMessage = ref('')
 </script>
 
@@ -21,10 +21,8 @@ const newsMessage = ref('')
 
             <div class="login-register-auth-form mt4 pa0 text-center xs12 sm11 md10 lg5 xl3"
                  :class="$waveui.breakpoint.lg || $waveui.breakpoint.xl ? 'pl10' : ''">
-                <Transition name="auth" mode="out-in" appear>
                     <LoginBlock v-if="!isRegistering"/>
                     <RegisterBlock v-else/>
-                </Transition>
                 <button @click="isRegistering = !isRegistering">switch</button>
             </div>
 
