@@ -1,17 +1,14 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import {ref} from "vue";
+import {useUserStore} from "../stores/auth/user";
 import NotFound from "../components/NotFound.vue";
+import {storeToRefs} from "pinia";
 
-const isAuth = ref(false)
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/login',
             name: 'login',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
             component: () => import('../views/LoginView.vue'),
             meta: {requiresAuth: false}
         },
@@ -25,29 +22,28 @@ const router = createRouter({
             path: '/:pathMatch(.*)*',
             name: 'NotFound',
             component: NotFound
-        },
-
+        }
     ]
 })
 
-// Add a navigation guard to check if the user is authenticated
-router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        // Check if user is authenticated
-        if (!isAuth.value) { // replace isLoggedIn() with your authentication check function
-            // User is not authenticated, redirect to login
-            next({
-                name: 'login',
-                // query: {redirect: to.fullPath} // Add a redirect query parameter to redirect after login
-            })
+router.beforeEach(async (to, from, next) => {
+    const userStore = useUserStore()
+    userStore.handleRouteLoading(true)
+    if (to.meta.requiresAuth) {
+        if (await userStore.checkUser()) {
+            next();
         } else {
-            // User is authenticated, continue to the requested route
-            next()
+            next('/login');
         }
     } else {
-        // Route does not require authentication, continue to the requested route
-        next()
+        next();
     }
+
+});
+
+router.afterEach(() => {
+    const userStore = useUserStore()
+    userStore.handleRouteLoading(false)
 })
 
 export default router

@@ -3,15 +3,14 @@ import { createPinia } from 'pinia'
 import WaveUI from 'wave-ui'
 import 'wave-ui/dist/wave-ui.css'
 import '@mdi/font/css/materialdesignicons.min.css'
-
 import App from './App.vue'
-import router from './router'
-
 import './assets/main.scss'
+import router from "./router";
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 app.use(WaveUI, { theme: 'light' })
 

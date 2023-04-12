@@ -1,10 +1,32 @@
+<script setup>
+import {useUserStore} from "../../stores/auth/user";
+import {storeToRefs} from "pinia";
+import {reactive} from "vue";
+import router from "../../router";
+import {createRouter as route} from "vue-router/dist/vue-router.esm-browser";
+const userStore = useUserStore()
+const {isLoading, success, errors} = storeToRefs(userStore)
+const {loginUser} = userStore
+const handleLogin = async () => {
+    await loginUser(userCredentials)
+
+    if (success.value) {
+        await router.push('/')
+    }
+}
+const userCredentials = reactive({
+    email: null,
+    password: null
+})
+</script>
 <template>
     <w-card class="dimmed-background box-shadow">
         <div>
             <img src="../../assets/images/login_face.jpg" alt="Vartotojo nuotraukos pavizdys"/>
         </div>
-        <div>
+        <div v-if="!isLoading">
             <w-input class="mb3 auth-input"
+                     v-model="userCredentials.email"
                      type="email"
                      color="white"
                      label-color="white">
@@ -13,15 +35,19 @@
             </w-input>
 
             <w-input class="mb3 auth-input"
+                     v-model="userCredentials.password"
                      type="password"
                      color="white"
                      label-color="white">
                 <w-icon class="mr4">mdi mdi-eye</w-icon>
                 <span>Slaptažodis</span>
             </w-input>
-
-            <w-button class="mt6 mb4 py6 px4" color="white" bg-color="mp-color">Prisijungti</w-button>
+            <w-alert v-if="errors" bg-color="mp-color" color="white">
+                {{ errors }}
+            </w-alert>
+            <w-button class="mt6 mb4 py6 px4" color="white" bg-color="mp-color" @click="handleLogin">Prisijungti</w-button>
         </div>
+        <w-spinner v-else color="mp-color" />
     </w-card>
 </template>
 

@@ -12,7 +12,6 @@ const showDialog = ref(true)
 
 // TODO removing po registracijos values is inputo
 // TODO sutvakryt success riekalus, modalas t.t.
-// TODO termsus praleidzia nepazymetus
 const handleRegister = async () => {
     await registerUser(newUserCredentials)
 
@@ -39,17 +38,6 @@ const newUserCredentials = reactive({
         Unde eum non necessitatibus quia corporis odio numquam sequi iusto
         voluptatum delectus? Excepturi minus iste, provident non totam itaque
         sed ut labore?<br /><br />
-        Nihil delectus distinctio eveniet quis qui tempora sit,
-        illum a reprehenderit esse ex ipsam deleniti optio accusantium saepe
-        cupiditate doloremque dignissimos aliquam aperiam earum soluta pariatur
-        sapiente, provident sequi? Itaque!Soluta itaque sed, obcaecati ipsum eum
-        dolores ratione quis hic adipisci atque dolor laudantium quisquam ea vitae
-        impedit fuga reprehenderit pariatur, reiciendis autem blanditiis excepturi
-        beatae ex nihil.<br />
-        Incidunt, eos? Magnam quaerat enim eum, non fuga excepturi
-        labore nemo voluptates necessitatibus esse amet voluptatibus modi deleniti
-        porro officiis ut fugit quidem corporis itaque possimus commodi sint unde
-        perspiciatis repellendus. Sunt!
         <w-button color="primary" size="large" @click="success = false">Supratau</w-button>
         </w-dialog>
     <w-card class="dimmed-background box-shadow">

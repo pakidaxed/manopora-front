@@ -1,7 +1,19 @@
+<script setup>
+import {useUserStore} from "../stores/auth/user";
+
+const userStore = useUserStore()
+</script>
 <template>
-  <div class="about">
-    <h1>This is an HOME page</h1>
-  </div>
+  <header>
+      HEADER
+  </header>
+    <main class="grow d-flex justify-center pa5">
+      MAIN
+        <RouterLink to="/login">LOGIN</RouterLink>
+  </main>
+  <footer>
+      manopora.lt
+  </footer>
 </template>
 
 <style>
