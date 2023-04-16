@@ -51,6 +51,7 @@ export const useUserStore = defineStore('user', () => {
                 isAlive.value = true
             })
             .catch((error) => {
+                console.log('nexuja')
                 isAuthenticated.value = false
                 isAlive.value = false
             })

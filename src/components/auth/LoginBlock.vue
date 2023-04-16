@@ -1,9 +1,8 @@
 <script setup>
 import {useUserStore} from "../../stores/auth/user";
 import {storeToRefs} from "pinia";
-import {reactive} from "vue";
-import router from "../../router";
-import {createRouter as route} from "vue-router/dist/vue-router.esm-browser";
+import {onMounted, reactive} from "vue";
+import router from "../../router";;
 const userStore = useUserStore()
 const {isLoading, success, errors} = storeToRefs(userStore)
 const {loginUser} = userStore
@@ -17,6 +16,9 @@ const handleLogin = async () => {
 const userCredentials = reactive({
     email: null,
     password: null
+})
+onMounted(() => {
+    errors.value = null
 })
 </script>
 <template>

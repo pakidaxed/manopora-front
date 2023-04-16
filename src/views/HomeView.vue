@@ -1,27 +1,26 @@
 <script setup>
 import {useUserStore} from "../stores/auth/user";
+import MainHeader from "../components/header/MainHeader.vue";
 
 const userStore = useUserStore()
 </script>
 <template>
   <header>
-      HEADER
+      <MainHeader />
   </header>
-    <main class="grow d-flex justify-center pa5">
-      MAIN
-        <RouterLink to="/login">LOGIN</RouterLink>
+    <main class="grow d-flex justify-center pa5 content-wrap">
+        <div class="container">
+            <RouterView />
+        </div>
+
   </main>
   <footer>
       manopora.lt
   </footer>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+<style scoped>
+footer {
+    text-align: center;
 }
 </style>

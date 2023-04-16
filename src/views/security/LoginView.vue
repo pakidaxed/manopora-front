@@ -1,13 +1,17 @@
 <script setup>
 import {ref} from "vue";
-import LoginBlock from "../components/auth/LoginBlock.vue";
-import RegisterBlock from "../components/auth/RegisterBlock.vue";
-import Welcome from "../components/Welcome.vue";
+import LoginBlock from "../../components/auth/LoginBlock.vue";
+import RegisterBlock from "../../components/auth/RegisterBlock.vue";
+import Welcome from "../../components/Welcome.vue";
 
 const isRegistering = ref(false)
 const newsMessage = ref('')
 //TODO KAI SWITCHINI TAP REGISTER IR LOGIN REIKIA SUTVARKYTI ERROR MESSAGEUS, ON SWITCH CLEAR REAIKTU
 //TODO SUGALVOT KUR MYHTUKA REGISTER IDET
+
+const handleSwitching = () => {
+    isRegistering.value = !isRegistering.value
+}
 </script>
 
 <template>
@@ -21,8 +25,8 @@ const newsMessage = ref('')
             <w-flex class="d-flex wrap justify-center align-center">
                 <div class="login-welcome-text xs-auto sm11 md10 lg5 xl6">
                     <Welcome/>
-                    <w-button v-if="!isRegistering" xl color="white" bg-color="mp-color" @click="isRegistering = true">REGISTRUOKIS</w-button>
-                    <w-button v-else xl color="white" bg-color="mp-color" @click="isRegistering = false">PRISIJUNGTI</w-button>
+                    <w-button v-if="!isRegistering" xl color="white" bg-color="mp-color" @click="handleSwitching">REGISTRUOKIS</w-button>
+                    <w-button v-else xl color="white" bg-color="mp-color" @click="handleSwitching">PRISIJUNGTI</w-button>
                 </div>
                 <div class="login-register-auth-form mt4 pa0 text-center xs12 sm11 md10 lg5 xl3"
                      :class="$waveui.breakpoint.lg || $waveui.breakpoint.xl ? 'pl10' : ''">
@@ -42,7 +46,7 @@ header, footer {
 }
 
 .background {
-    background-image: url("../assets/images/love3_dimmed.jpg");
+    background-image: url("../../assets/images/love3_dimmed.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-origin: padding-box;
