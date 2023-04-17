@@ -35,4 +35,9 @@ select:-webkit-autofill:focus {
 
 .container {
   max-width: $main-container-width;
+  width: 100%;
+}
+
+.my-profile-image img {
+  max-width: 300px;
 }

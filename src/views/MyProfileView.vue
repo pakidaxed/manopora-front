@@ -1,59 +1,118 @@
+<script setup>
+
+import {reactive, ref} from "vue";
+
+const myProfile = reactive({
+    name: '',
+    birthDate: null,
+})
+
+const mySexs = ref([
+    {value: 'vyras', label: 'Vyras'},
+    {value: 'moteris', label: 'Moteris'},
+    {value: 'pora', label: 'Pora'},
+    {value: 'kita', label: 'Kita'}
+])
+
+const searchSexs = ref([
+    {value: 'vyro', label: 'Vyro'},
+    {value: 'moters', label: 'Moters'},
+    {value: 'poros', label: 'Poros'},
+    {value: 'kita', label: 'Kita'}
+])
+
+const selectedMySex = ref('vyras')
+const selectedSearchSex = ref('moters')
+
+
+</script>
 <template>
     <main>
-        <h1 class="mb5"><span class="mp-color">@</span>pakidaxed_undersocre23</h1>
-        <div class="my-profile-pictures d-flex xs-column sm-column">
-            <div class="my-profile-main-picture md6">
-                <div class="my-profile-image">
-                    <img src="../assets/images/login_face.jpg" alt="" class="w-image-wrap--has-ratio" ratio="22 / 43">
-
+        <div class="main-name">
+<!--            TODO palimituoti backe reikia username'o ilgi-->
+            <h1 class="mb5"><span class="mp-color">@</span>turritopsis88</h1>
+        </div>
+        <div class="d-flex xs-column sm-column">
+            <div class="my-profile-info md6">
+                <div class="my-profile-info-fields column">
+                    <div class="my-profile-info-field mt12 d-flex">
+                        <w-input class="mb3 auth-input"
+                                 v-model="myProfile.name"
+                                 type="email"
+                                 color="black"
+                                 label-color="mp-color"
+                                 model-value="Arkamas">
+                            <span>Vardas:</span>
+                        </w-input>
+                    </div>
+                    <div class="my-profile-info-field d-flex mt12">
+                        <w-input class="mb3 auth-input"
+                                 v-model="myProfile.name"
+                                 type="date"
+                                 color="black"
+                                 label-color="mp-color"
+                                 model-value="1988-05-27">
+                            <span>Gimimo data:</span>
+                        </w-input>
+                    </div>
+                    <div class="my-profile-info-field mt12 d-flex">
+                        <w-select
+                                color="black"
+                                label-color="mp-color"
+                                :items="mySexs"
+                                label="Esu"
+                                v-model="selectedMySex"
+                        >
+                        </w-select>
+                    </div>
+                    <div class="my-profile-info-field mt12 d-flex">
+                        <w-select
+                                color="black"
+                                label-color="mp-color"
+                                :items="searchSexs"
+                                label="Ieškau"
+                                v-model="selectedSearchSex"
+                        >
+                        </w-select>
+                    </div>
+                    <div class="my-profile-info-field mt12 d-flex">
+                        <w-textarea
+                                color="black"
+                                label-color="mp-color"
+                                no-autogrow
+                                rows="6"
+                                outline
+                                model-value="fdfsf"
+                        >
+                            Apie mane
+                        </w-textarea>
+                    </div>
+                    <div class="my-profile-info-field mb5 sm-text-center xs-text-center">
+                        <w-button xl color="white" bg-color="mp-color" class="mt5 pa6">
+                            <w-icon class="mr1">mdi mdi-check</w-icon>
+                            Išsaugoti
+                        </w-button>
+                    </div>
                 </div>
             </div>
             <div class="spacer px2"></div>
-            <div class="my-profile-info md-ml12 md6">
-
-                <div class="my-profile-info-fields column">
-                    <div class="my-profile-info-field bd1 d-flex">
-                        <div class="viens">Vardas:</div>
-                        <input type="text" value="Tomas">
-                    </div>
-                    <div class="my-profile-info-field d-flex">
-                        <div class="viens">Gimimo metai:</div>
-                        <input type="date" value="1988-05-27" />
-                    </div>
-                    <div class="my-profile-info-field d-flex">
-                        <div class="viens">Lytis:</div>
-                        <select name="male" id="">
-                            <option value="vyras" selected>Vyras</option>
-                            <option value="moteris">Moteris</option>
-                            <option value="pora">Pora</option>
-                            <option value="kita">Kita</option>
-                        </select>
-                    </div>
-                    <div class="my-profile-info-field d-flex">
-                        <div class="viens">Ieskau:</div>
-                        <select name="male" id="">
-                            <option value="vyras" selected>Vyro</option>
-                            <option value="moteris">Moters</option>
-                            <option value="pora">Poros</option>
-                            <option value="kita">Kitko</option>
-                        </select>
-                    </div>
-                    <div class="my-profile-info-field d-flex">
-                        <div class="viens">Aprasymas:</div>
-                        <textarea></textarea>
-                    </div>
-
-
+            <div class="">
+                <div class="my-profile-info-picture text-center">
+                    <img src="../assets/images/login_face.jpg" alt="" width="300">
                 </div>
+                <div class="my-profile-info-picture-link text-center">
+                    <RouterLink to="/nuotraukos">
+                        <w-button xl color="white" bg-color="mp-color" class="mt5 pa6">
+                            <w-icon class="mr1">mdi mdi-camera-outline</w-icon>
+                            Tvarkyti nuotraukas
+                        </w-button>
+                    </RouterLink>
+                </div>
+
+
 
             </div>
         </div>
-
-
-        <p>Lorem ipsum sit amet, consectetur adipisicing elit. Animi aperiam dolorem ducimus eligendi enim fugit iste
-            laborum minus molestiae, neque omnis quibusdam sint sit. Ab ad aliquam commodi deserunt dignissimos eos
-            eveniet excepturi fuga fugit impedit inventore labore libero modi officiis, quo recusandae reiciendis
-            repellendus rerum ullam veniam voluptas voluptatem.</p>
 
     </main>
 </template>
@@ -61,17 +120,13 @@
 </script>
 <style scoped>
 .my-profile-image {
-    border: 1px solid rgb(241, 82, 126);
+    text-align: center;
 }
 
-h1 {
-    width: 100%;
+.w-input, .w-select, .w-textarea, .w-select-dropdown-item {
+    font-size: 30px;
+    color: black;
 }
 
-.all-pictures-block {
-    width: 110px;
-    height: 110px;
-    object-fit: cover;
-    margin-right: 5px;
-}
+
 </style>
