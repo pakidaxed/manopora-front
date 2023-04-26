@@ -1,13 +1,11 @@
 import {ref, computed} from 'vue'
 import axios from 'axios'
 import {defineStore} from 'pinia'
-
+//TODO refactorint reikia, cia pirma dariau, ir success nereikalingas jauciu
 export const useUserStore = defineStore('user', () => {
-    const isAuthenticated = ref(false)
+    const mainUsername = ref(null)
     const isLoading = ref(false)
-    const doubleCount = computed(() => count.value * 2)
     const errors = ref(null)
-    const success = ref(false)
     const routeLoading = ref(false)
 
     const handleRouteLoading = (state) => {
@@ -18,7 +16,6 @@ export const useUserStore = defineStore('user', () => {
         isLoading.value = true
         await axios.post('http://mp.lt/register', newUserCredentials)
             .then(() => {
-                success.value = true
                 errors.value = null
             })
             .catch((error) => {
@@ -30,13 +27,10 @@ export const useUserStore = defineStore('user', () => {
 
     const loginUser = async (userCredentials) => {
         isLoading.value = true
-        await axios.post('http://mp.lt/login', userCredentials, {withCredentials:true})
-            .then((response) => {
-                success.value = true
-                isAuthenticated.value = true
+        await axios.post('http://mp.lt/login', userCredentials)
+            .then(() => {
             })
             .catch((error) => {
-                console.log(error)
                 errors.value = error.response.data.error
             })
 
@@ -44,15 +38,13 @@ export const useUserStore = defineStore('user', () => {
     }
 
     const checkUser = async () => {
-        const isAlive = ref(false)
-        await axios.get('http://mp.lt/check', {withCredentials: true})
-            .then(() => {
-                console.log('vis dar prisijunges')
+        const isAlive = ref(false) // Reikalingas routeriui chekint kas karta, returnas ten nueina todel nera store
+        await axios.get('http://mp.lt/check')
+            .then((response) => {
                 isAlive.value = true
+                mainUsername.value = response.data.username
             })
-            .catch((error) => {
-                console.log('nexuja')
-                isAuthenticated.value = false
+            .catch(() => {
                 isAlive.value = false
             })
 
@@ -60,12 +52,21 @@ export const useUserStore = defineStore('user', () => {
     }
 
     const logoutUser = async () => {
-        await axios.get('http://mp.lt/logout', {withCredentials: true})
+        await axios.get('http://mp.lt/logout')
             .then(() => {
-                console.log('logout')
-                isAuthenticated.value = false
+                //TODO  clearint visus stores values
             })
     }
 
-    return {doubleCount, isLoading, errors, success, isAuthenticated, routeLoading, registerUser, loginUser, checkUser, logoutUser, handleRouteLoading}
+    return {
+        isLoading,
+        errors,
+        routeLoading,
+        mainUsername,
+        registerUser,
+        loginUser,
+        checkUser,
+        logoutUser,
+        handleRouteLoading
+    }
 })

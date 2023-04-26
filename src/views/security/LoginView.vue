@@ -36,7 +36,7 @@ const handleSwitching = () => {
 
             </w-flex>
         </main>
-        <footer class="white text-center pa2">© 2023 MANOPORA.LT</footer>
+        <footer class="white text-center pa2">© 2023 manopora.lt</footer>
     </w-app>
 </template>
 
@@ -56,7 +56,6 @@ header, footer {
 }
 
 footer {
-    /* Created with https://www.css-gradient.com */
     background: rgba(0, 0, 0, 0.6);
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
 }

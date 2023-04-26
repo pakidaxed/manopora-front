@@ -30,7 +30,7 @@
                 Mano profilis
             </RouterLink>
             <br />
-            <RouterLink to="/nuotraukos">
+            <RouterLink to="/pictures">
                 <w-button icon="mdi mdi-camera-outline" text lg color="black"></w-button>
                 Nuotruakos
             </RouterLink>

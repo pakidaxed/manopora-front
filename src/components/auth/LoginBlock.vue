@@ -4,12 +4,12 @@ import {storeToRefs} from "pinia";
 import {onMounted, reactive} from "vue";
 import router from "../../router";;
 const userStore = useUserStore()
-const {isLoading, success, errors} = storeToRefs(userStore)
+const {isLoading, errors} = storeToRefs(userStore)
 const {loginUser} = userStore
 const handleLogin = async () => {
     await loginUser(userCredentials)
 
-    if (success.value) {
+    if (!errors.value) {
         await router.push('/')
     }
 }

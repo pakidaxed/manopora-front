@@ -5,21 +5,22 @@ import {storeToRefs} from "pinia";
 import InputErrorAlert from "./InputErrorAlert.vue";
 
 const userStore = useUserStore()
-const {isLoading, success, errors} = storeToRefs(userStore)
+const {isLoading, errors} = storeToRefs(userStore)
+const registerSuccessful = ref(false)
 const {registerUser} = userStore
-const isRegistered = ref(false)
-const showDialog = ref(true)
 
 // TODO removing po registracijos values is inputo
 // TODO sutvakryt success riekalus, modalas t.t.
 const handleRegister = async () => {
     await registerUser(newUserCredentials)
 
-    if (!errors && success === true) {
+    if (!errors.value) {
         newUserCredentials.email = null
         newUserCredentials.username = null
         newUserCredentials.password = null
         newUserCredentials.terms = null
+
+        registerSuccessful.value = true
     }
 }
 const newUserCredentials = reactive({
@@ -32,13 +33,13 @@ const newUserCredentials = reactive({
 </script>
 <template>
     <w-dialog
-        v-model="success"
+        v-model="registerSuccessful"
         title="Dialog title">
         Lorem ipsum dolor sit amet consectetur adipisicing elit.<br />
         Unde eum non necessitatibus quia corporis odio numquam sequi iusto
         voluptatum delectus? Excepturi minus iste, provident non totam itaque
         sed ut labore?<br /><br />
-        <w-button color="primary" size="large" @click="success = false">Supratau</w-button>
+        <w-button color="primary" size="large" @click="registerSuccessful = false">Supratau</w-button>
         </w-dialog>
     <w-card class="dimmed-background box-shadow">
         <div>
