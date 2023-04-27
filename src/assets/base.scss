@@ -2,6 +2,22 @@ body {
   font-family: $main-font;
 }
 
+footer {
+  text-align: center;
+}
+
+.w-input, .w-select, .w-textarea, .w-select-dropdown-item {
+  font-size: 30px;
+}
+
+a, a:visited {
+  color: black;
+}
+
+a:active, a:focus, a:hover {
+  color: $primary-color;
+}
+
 .mp-color {
   color: $primary-color;
 }
@@ -40,4 +56,8 @@ select:-webkit-autofill:focus {
 
 .my-profile-image img {
   max-width: 300px;
+}
+
+.main-section-name::first-letter {
+  color: $primary-color;
 }

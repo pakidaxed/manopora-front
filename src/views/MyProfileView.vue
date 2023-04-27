@@ -6,7 +6,7 @@ import {storeToRefs} from "pinia";
 import InputErrorAlert from "../components/auth/InputErrorAlert.vue";
 import {usePropertiesStore} from "../stores/props/properties";
 import {useUserStore} from "../stores/auth/user";
-
+import {usePictureStore} from "../stores/user/picture";
 
 const userProfileStore = useProfileStore()
 const {getUserProfile, updateUserProfile} = userProfileStore
@@ -18,6 +18,10 @@ const {propsGenders} = storeToRefs(propertiesStore)
 
 const userStore = useUserStore()
 const {mainUsername} = storeToRefs(userStore)
+
+const userPictureStore = usePictureStore()
+const {mainPicture} = storeToRefs(userPictureStore)
+const {getUserPictures} = userPictureStore
 
 const updateSuccessful = ref(false)
 
@@ -56,6 +60,7 @@ const handleProfileUpdate = async () => {
 }
 
 onMounted(async () => {
+    await getUserPictures()
     await getPropsGender()
     await createGenders()
     await getUserProfile()
@@ -63,8 +68,8 @@ onMounted(async () => {
     if (userProfile.value) {
         myProfile.name = userProfile.value.name
         myProfile.birthDate = new Date(userProfile.value.birthDate).toLocaleDateString('lt-LT')
-        myProfile.gender = userProfile.value.gender.name
-        myProfile.interest = userProfile.value.interest.name
+        myProfile.gender = userProfile.value.gender
+        myProfile.interest = userProfile.value.interest
         myProfile.description = userProfile.value.description
     }
 })
@@ -72,7 +77,7 @@ onMounted(async () => {
 </script>
 <template>
     <main>
-        <div class="main-name">
+        <div>
             <h1 class="mb5"><span class="mp-color">@</span>{{ mainUsername }}</h1>
         </div>
         <w-alert v-if="!profileValid" bg-color="mp-color" color="white">
@@ -148,44 +153,28 @@ onMounted(async () => {
                             <w-icon class="mr1">mdi mdi-check</w-icon>
                             {{ updateSuccessful && !errors ? 'Išsaugota' : 'Išsaugoti' }}
                         </w-button>
-                        <!--                        <w-alert v-if="updateSuccessful" bg-color="success" color="white">-->
-                        <!--                            Success-->
-                        <!--                        </w-alert>-->
                     </div>
-
                 </div>
             </div>
             <div class="spacer px2"></div>
-            <div class="">
+            <div>
                 <div class="my-profile-info-picture text-center">
-                    <img src="../assets/images/login_face.jpg" alt="" width="300">
+                    <img :src="'http://mp.lt/picture/' + mainPicture" alt="" width="300">
                 </div>
                 <div class="my-profile-info-picture-link text-center">
-                    <RouterLink to="/nuotraukos">
+                    <RouterLink to="/pictures">
                         <w-button xl color="white" bg-color="mp-color" class="mt5 pa6">
                             <w-icon class="mr1">mdi mdi-camera-outline</w-icon>
                             Tvarkyti nuotraukas
                         </w-button>
                     </RouterLink>
                 </div>
-
-
             </div>
         </div>
-
     </main>
 </template>
 <script setup>
 </script>
 <style scoped>
-.my-profile-image {
-    text-align: center;
-}
-
-.w-input, .w-select, .w-textarea, .w-select-dropdown-item {
-    font-size: 30px;
-    color: black;
-}
-
 
 </style>

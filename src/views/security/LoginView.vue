@@ -16,7 +16,6 @@ const handleSwitching = () => {
 
 <template>
     <w-app class="background">
-        <RouterLink to="/">HOME</RouterLink>
         <header v-if="newsMessage" class="white text-center pa2 mp-color--bg">
             {{ newsMessage }} {{ $waveui.breakpoint.name }}
         </header>

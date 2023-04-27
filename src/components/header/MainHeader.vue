@@ -4,6 +4,7 @@
             <RouterLink to="/"><img src="../../assets/images/manopora_logo.png" width="150" alt=""></RouterLink>
         </div>
         <div class="spacer"></div>
+        <!--        TODO kai funkcija manopora bus alive -->
         <!--        <w-button icon="mdi mdi-heart" text lg class="ml3" color="mp-color"></w-button>-->
         <RouterLink to="/search">
             <w-button icon="mdi mdi-account-search" text lg color="black"></w-button>
@@ -20,7 +21,7 @@
                 <w-button icon="mdi mdi-email-outline" text lg class="ml3" color="black"></w-button>
             </w-badge>
         </RouterLink>
-<!--        TODO: BR'us sutvarkyt -->
+        <!--        TODO: BR'us sutvarkyt -->
         <w-menu align-right>
             <template #activator="{ on }">
                 <w-button v-on="on" icon="mdi mdi-apps" text lg class="ml3" color="black"></w-button>
@@ -29,12 +30,12 @@
                 <w-button icon="mdi mdi-account-settings" text lg color="black"></w-button>
                 Mano profilis
             </RouterLink>
-            <br />
+            <br/>
             <RouterLink to="/pictures">
                 <w-button icon="mdi mdi-camera-outline" text lg color="black"></w-button>
                 Nuotruakos
             </RouterLink>
-            <br />
+            <br/>
             <RouterLink to="/settings">
                 <w-button icon="mdi mdi-tune" text lg color="black"></w-button>
                 Nustatymai

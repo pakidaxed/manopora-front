@@ -1,8 +1,5 @@
 <script setup>
-import {useUserStore} from "../stores/auth/user";
 import MainHeader from "../components/header/MainHeader.vue";
-
-const userStore = useUserStore()
 </script>
 <template>
   <header>
@@ -20,7 +17,5 @@ const userStore = useUserStore()
 </template>
 
 <style scoped>
-footer {
-    text-align: center;
-}
+
 </style>

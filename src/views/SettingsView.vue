@@ -1,3 +1,7 @@
 <template>
-  <h2>Settings</h2>
+    <div class="main-section-name">
+        <h1 class="mb5">Nustatymai</h1>
+    </div>
 </template>
+<script setup>
+</script>
