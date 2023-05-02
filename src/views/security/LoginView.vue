@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import LoginBlock from "../../components/auth/LoginBlock.vue";
 import RegisterBlock from "../../components/auth/RegisterBlock.vue";
 import Welcome from "../../components/Welcome.vue";

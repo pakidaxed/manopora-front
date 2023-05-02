@@ -7,6 +7,7 @@ export const useUserStore = defineStore('user', () => {
     const isLoading = ref(false)
     const errors = ref(null)
     const routeLoading = ref(false)
+    const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
 
     const handleRouteLoading = (state) => {
         routeLoading.value = state
@@ -14,7 +15,7 @@ export const useUserStore = defineStore('user', () => {
 
     const registerUser = async (newUserCredentials) => {
         isLoading.value = true
-        await axios.post('http://mp.lt/register', newUserCredentials)
+        await axios.post(apiBaseUrl.value + '/register', newUserCredentials)
             .then(() => {
                 errors.value = null
             })
@@ -27,7 +28,7 @@ export const useUserStore = defineStore('user', () => {
 
     const loginUser = async (userCredentials) => {
         isLoading.value = true
-        await axios.post('http://mp.lt/login', userCredentials)
+        await axios.post(apiBaseUrl.value + '/login', userCredentials)
             .then(() => {
             })
             .catch((error) => {
@@ -39,7 +40,7 @@ export const useUserStore = defineStore('user', () => {
 
     const checkUser = async () => {
         const isAlive = ref(false) // Reikalingas routeriui chekint kas karta, returnas ten nueina todel nera store
-        await axios.get('http://mp.lt/check')
+        await axios.get(apiBaseUrl.value + '/check')
             .then((response) => {
                 isAlive.value = true
                 mainUsername.value = response.data.username
@@ -52,7 +53,7 @@ export const useUserStore = defineStore('user', () => {
     }
 
     const logoutUser = async () => {
-        await axios.get('http://mp.lt/logout')
+        await axios.get(apiBaseUrl.value + '/logout')
             .then(() => {
                 //TODO  clearint visus stores values
             })

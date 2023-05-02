@@ -7,10 +7,11 @@ export const useProfileStore = defineStore('profile', () => {
     const isLoading = ref(false)
     const errors = ref(null)
     const profileValid = ref(true)
+    const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
 
     const getUserProfile = async () => {
         isLoading.value = true
-        await axios.get('http://mp.lt/user/profile')
+        await axios.get(apiBaseUrl.value + '/user/profile')
             .then((response) => {
                 userProfile.value = response.data.profile
                 errors.value = null
@@ -24,7 +25,7 @@ export const useProfileStore = defineStore('profile', () => {
 
     const updateUserProfile = async (userProfileData) => {
         isLoading.value = true
-        await axios.post('http://mp.lt/user/profile', userProfileData)
+        await axios.post(apiBaseUrl.value + '/user/profile', userProfileData)
             .then(() => {
                 errors.value = null
             })

@@ -8,6 +8,8 @@ const pictureStore = usePictureStore()
 const {isLoading, allPictures, mainPicture, errors, totalPictures} = storeToRefs(pictureStore)
 const {getUserPictures, uploadUserPicture, setMainPicture, deleteUserPicture} = pictureStore
 
+const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
+
 const newImageFile = ref(null)
 const showActionButtons = ref(false)
 
@@ -74,7 +76,7 @@ onMounted(async () => {
             <h1 class="mb5">Nuotraukos</h1>
         </div>
         <!--        TODO sugalvot kaip main pictures kai nera kad alerta rodytu-->
-        <w-alert v-if="mainPicture == 'user_no_picture.jpg'" bg-color="mp-color" color="white">
+        <w-alert v-if="mainPicture === 'user_no_picture.jpg'" bg-color="mp-color" color="white">
             Nėra pagrindinės nuotraukos, kuri rodoma kitiems vartotojams paieškoje
         </w-alert>
         <div class="d-flex xs-column sm-column">
@@ -82,7 +84,7 @@ onMounted(async () => {
                 <h3 class="mb5">Pagrindinė nuotrauka</h3>
                 <div class="column">
                     <div class="pictures-main text-center">
-                        <img :src="'http://mp.lt/picture/' + mainPicture" class="w-image-wrap--has-ratio"
+                        <img :src="apiBaseUrl + '/picture/' + mainPicture" class="w-image-wrap--has-ratio"
                              alt="Pagrindinė nuotrauka">
                     </div>
                 </div>
@@ -106,7 +108,7 @@ onMounted(async () => {
                             v-for="picture in allPictures"
                             :key="picture.id"
                             class="pictures-others-card"
-                            :style="'background-image: url(http://mp.lt/picture/' + picture.path + ')'"
+                            :style="'background-image: url(' + apiBaseUrl + '/picture/' + picture.path + ')'"
                             @mouseover="showActionButtons = picture.id"
                             @mouseout="handleActionButtons"
                     >

@@ -8,10 +8,11 @@ export const usePictureStore = defineStore('picture', () => {
     const isLoading = ref(false)
     const errors = ref(null)
     const totalPictures = ref(0)
+    const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
 
     const getUserPictures = async () => {
         isLoading.value = true
-        await axios.get('http://mp.lt/user/pictures')
+        await axios.get(apiBaseUrl.value + '/user/pictures')
             .then((response) => {
                 allPictures.value = response.data.pictures
 
@@ -36,7 +37,7 @@ export const usePictureStore = defineStore('picture', () => {
         const formData = new FormData()
         formData.append('uploadedPicture', newPictureFile[0])
 
-        await axios.post('http://mp.lt/user/pictures', formData,  { headers: { 'Content-Type': 'multipart/form-data' } })
+        await axios.post(apiBaseUrl.value + '/user/pictures', formData,  { headers: { 'Content-Type': 'multipart/form-data' } })
             .then(() => {
                 errors.value = null
             })
@@ -50,7 +51,7 @@ export const usePictureStore = defineStore('picture', () => {
     const setMainPicture = async (id) => {
         isLoading.value = true
 
-        await axios.patch('http://mp.lt/user/pictures', {id: id})
+        await axios.patch(apiBaseUrl.value + '/user/pictures', {id: id})
             .then((response) => {
                 errors.value = null
             })
@@ -64,7 +65,7 @@ export const usePictureStore = defineStore('picture', () => {
     const deleteUserPicture = async (id) => {
         isLoading.value = true
 
-        await axios.delete('http://mp.lt/user/pictures', { data: {
+        await axios.delete(apiBaseUrl.value + '/user/pictures', { data: {
                 id: id
             }})
             .then(() => {

@@ -4,9 +4,10 @@ import {defineStore} from 'pinia'
 
 export const usePropertiesStore = defineStore('properties', () => {
     const propsGenders = ref(null)
+    const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
 
     const getPropsGender = async () => {
-        await axios.get('http://mp.lt/props/gender')
+        await axios.get(apiBaseUrl.value + '/props/gender')
             .then((response) => {
                 propsGenders.value = response.data.genders
             })
