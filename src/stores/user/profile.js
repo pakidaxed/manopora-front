@@ -11,7 +11,7 @@ export const useProfileStore = defineStore('profile', () => {
 
     const getUserProfile = async () => {
         isLoading.value = true
-        await axios.get(apiBaseUrl.value + '/user/profile')
+        await axios.get(apiBaseUrl.value + '/user/me')
             .then((response) => {
                 userProfile.value = response.data.profile
                 errors.value = null
@@ -25,7 +25,7 @@ export const useProfileStore = defineStore('profile', () => {
 
     const updateUserProfile = async (userProfileData) => {
         isLoading.value = true
-        await axios.post(apiBaseUrl.value + '/user/profile', userProfileData)
+        await axios.post(apiBaseUrl.value + '/user/me', userProfileData)
             .then(() => {
                 errors.value = null
             })
