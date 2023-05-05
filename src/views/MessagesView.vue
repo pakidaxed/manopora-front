@@ -1,37 +1,33 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import axios from "axios";
+import {useChatStore} from "../stores/messages/chat";
+import {storeToRefs} from "pinia";
+import {useUserStore} from "../stores/auth/user";
+import {useRoute} from "vue-router";
 
-const data = ref(null)
-const message = ref('')
-const messages = ref([])
+const route = useRoute()
 
-const sendMessage = async () => {
-    await axios.post('http://mp.lt:8085/chat/test', {message: message.value})
-        .then(() => {
-            message.value = ''
-        })
-        .catch(() => {
-            console.log('ERROR')
-        })
-}
-onMounted(() => {
+const userStore = useUserStore()
+const {mainUsername} = storeToRefs(userStore)
+
+const chatStore = useChatStore()
+const {getChatList} = chatStore
+const {chats} = storeToRefs(chatStore)
+
+onMounted(async () => {
     const url = new URL('http://localhost:3000/.well-known/mercure');
-    url.searchParams.append('topic', 'chat/2');
-// The URL class is a convenient way to generate URLs such as https://localhost/.well-known/mercure?topic=https://example.com/books/{id}&topic=https://example.com/users/dunglas
-
+    url.searchParams.append('topic', 'chat/' + mainUsername.value);
     const eventSource = new EventSource(url);
 
-// The callback will be called every time an update is published
-    eventSource.onmessage = e => {
+    eventSource.onmessage = async () => {
+        if (route.name === 'messages') {
+            await getChatList()
+        }
+    }
 
-        messages.value.push(e.data)
-
-        console.log(messages.value)
-
-    } // do something with the payload
-
-
+    eventSource.onopen = async () => {
+        await getChatList()
+    }
 })
 
 </script>
@@ -39,11 +35,18 @@ onMounted(() => {
     <main>
         <div class="main-section-name">
             <h1 class="mb5">Žinutės</h1>
-            <input type="text" v-model="message" @keyup.enter="sendMessage">
-            <button @click="sendMessage" >SEND</button>
         </div>
-        <div v-for="msg in messages" :key="msg.id">
-            <p>AI: {{ JSON.parse(msg).message }}</p>
+        <div v-for="chat in chats" :key="chat.id">
+            <RouterLink :to="'/chat/' + chat.user2">
+                <div class="chat-card">@{{ chat.user2 }} - {{ chat.newMessages }}</div>
+            </RouterLink>
         </div>
     </main>
 </template>
+<style scoped>
+.chat-card {
+    font-size: 35px;
+    border-bottom: 1px solid black;
+    padding: 20px 5px;
+}
+</style>
