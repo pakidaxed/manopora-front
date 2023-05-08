@@ -13,8 +13,8 @@ const {getUserProfile, updateUserProfile} = userProfileStore
 const {isLoading, errors, success, profileValid, userProfile} = storeToRefs(userProfileStore)
 
 const propertiesStore = usePropertiesStore()
-const {getPropsGender} = propertiesStore
-const {propsGenders} = storeToRefs(propertiesStore)
+const {getPropsGender, getPropsCity} = propertiesStore
+const {propsGenders, propsCities} = storeToRefs(propertiesStore)
 
 const userStore = useUserStore()
 const {mainUsername} = storeToRefs(userStore)
@@ -36,16 +36,24 @@ const myProfile = reactive({
     birthDate: profileDataDateFilter(),
     gender: '',
     interest: '',
-    description: ''
+    description: '',
+    city: ''
 })
 
 const myGenders = ref([])
 const interestGenders = ref([])
+const cities = ref([])
 
 const createGenders = () => {
     propsGenders.value.forEach((gender) => {
         myGenders.value.push({value: gender.name, label: gender.title})
         interestGenders.value.push({value: gender.name, label: gender.interestTitle})
+    })
+}
+
+const createCities = () => {
+    propsCities.value.forEach((city) => {
+        cities.value.push({value: city.name, label: city.title})
     })
 }
 
@@ -62,7 +70,9 @@ const handleProfileUpdate = async () => {
 onMounted(async () => {
     await getUserPictures()
     await getPropsGender()
+    await getPropsCity()
     await createGenders()
+    await createCities()
     await getUserProfile()
 
     if (userProfile.value) {
@@ -71,6 +81,7 @@ onMounted(async () => {
         myProfile.gender = userProfile.value.gender
         myProfile.interest = userProfile.value.interest
         myProfile.description = userProfile.value.description
+        myProfile.city = userProfile.value.city
     }
 })
 
@@ -100,6 +111,17 @@ onMounted(async () => {
 
                     </div>
                     <InputErrorAlert :errors="errors" input-field="name"/>
+                    <div class="my-profile-info-field mt12 d-flex">
+                        <w-select
+                            color="black"
+                            label-color="mp-color"
+                            :items="cities"
+                            label="Miestas"
+                            v-model="myProfile.city"
+                        >
+                        </w-select>
+                    </div>
+                    <InputErrorAlert :errors="errors" input-field="city"/>
                     <div class="my-profile-info-field d-flex mt12">
                         <w-input class="mb3 auth-input"
                                  v-model="myProfile.birthDate"

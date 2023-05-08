@@ -1,3 +1,35 @@
+<script setup>
+import {useRoute} from "vue-router";
+import {useUserStore} from "../../stores/auth/user";
+import {storeToRefs} from "pinia";
+import {useChatStore} from "../../stores/messages/chat";
+import {onMounted} from "vue";
+
+const route = useRoute()
+
+const userStore = useUserStore()
+const {mainUsername} = storeToRefs(userStore)
+
+const chatStore = useChatStore()
+const {getChatList} = chatStore
+const {totalNewMessages} = storeToRefs(chatStore)
+
+onMounted(async () => {
+    const url = new URL('http://localhost:3000/.well-known/mercure');
+    url.searchParams.append('topic', 'chat/' + mainUsername.value);
+    const eventSource = new EventSource(url);
+
+    eventSource.onmessage = async () => {
+        if (route.name === 'messages') {
+            await getChatList()
+        }
+    }
+
+    eventSource.onopen = async () => {
+        await getChatList()
+    }
+})
+</script>
 <template>
     <w-toolbar shadow class="py1">
         <div class="mb-1">
@@ -11,13 +43,13 @@
         </RouterLink>
         <RouterLink to="/notifications">
             <w-badge top right overlap bg-color="mp-color" color="white">
-                <template #badge>6</template>
+                <template #badge>0</template>
                 <w-button icon="mdi mdi-bell-outline" text lg class="ml3" color="black"></w-button>
             </w-badge>
         </RouterLink>
         <RouterLink to="/messages">
-            <w-badge top right overlap bg-color="mp-color" color="white">
-                <template #badge>1</template>
+            <w-badge top right overlap :bg-color="totalNewMessages ? 'mp-color' : 'hidden'" color="white">
+                <template v-if="totalNewMessages" #badge>{{ totalNewMessages }}</template>
                 <w-button icon="mdi mdi-email-outline" text lg class="ml3" color="black"></w-button>
             </w-badge>
         </RouterLink>

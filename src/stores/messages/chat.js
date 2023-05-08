@@ -5,6 +5,7 @@ import {defineStore} from 'pinia'
 export const useChatStore = defineStore('chat', () => {
     const messages = ref(null)
     const chats = ref(null)
+    const totalNewMessages = ref(0)
     const isLoading = ref(false)
     const errors = ref(null)
     const profileValid = ref(true)
@@ -15,6 +16,10 @@ export const useChatStore = defineStore('chat', () => {
         await axios.get(apiBaseUrl.value + '/chat/list')
             .then((response) => {
                 chats.value = response.data.chats
+                totalNewMessages.value = 0
+                chats.value.forEach(chat => {
+                    totalNewMessages.value += Number(chat.newMessages)
+                })
                 errors.value = null
             })
             .catch(() => {
@@ -52,5 +57,5 @@ export const useChatStore = defineStore('chat', () => {
         isLoading.value = false
     }
 
-    return {isLoading, errors , messages, profileValid, chats, getChatMessages, sendChatMessage, getChatList}
+    return {isLoading, errors , messages, profileValid, chats, totalNewMessages, getChatMessages, sendChatMessage, getChatList}
 })

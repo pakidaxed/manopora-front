@@ -4,6 +4,7 @@ import {defineStore} from 'pinia'
 
 export const usePropertiesStore = defineStore('properties', () => {
     const propsGenders = ref(null)
+    const propsCities = ref(null)
     const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
 
     const getPropsGender = async () => {
@@ -16,6 +17,16 @@ export const usePropertiesStore = defineStore('properties', () => {
             })
     }
 
+    const getPropsCity = async () => {
+        await axios.get(apiBaseUrl.value + '/props/city')
+            .then((response) => {
+                propsCities.value = response.data.cities
+            })
+            .catch(() => {
 
-    return {propsGenders, getPropsGender}
+            })
+    }
+
+
+    return {propsGenders, propsCities, getPropsGender, getPropsCity}
 })

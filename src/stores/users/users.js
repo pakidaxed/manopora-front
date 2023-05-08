@@ -10,30 +10,34 @@ export const useUsersStore = defineStore('users', () => {
     const endReached = ref(false)
     const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
 
-    const getFirstUserProfiles = async () => {
+    const getFirstUserProfiles = async (searchValues) => {
         isLoading.value = true
-        await axios.get(apiBaseUrl.value + '/user/profiles')
+        await axios.get(apiBaseUrl.value + '/user/profiles?city=' + searchValues.city)
             .then((response) => {
+                console.log(response.data)
                 userProfiles.value = response.data.profiles
-                console.log(userProfiles.value)
             })
-            .catch(() => {
+            .catch((error) => {
+                console.log(error)
             })
 
         isLoading.value = false
     }
 
-    const getNextUserProfiles = async (page) => {
+    const getNextUserProfiles = async (page, searchValues) => {
+        console.log(page)
+        console.log(searchValues)
         isLoading.value = true
-        await axios.get(apiBaseUrl.value + '/user/profiles?page=' + page)
+        await axios.get(apiBaseUrl.value + '/user/profiles?page=' + page + '&city=' + searchValues.city)
             .then((response) => {
+                console.log(response.data)
                 userProfiles.value = [...userProfiles.value, ...response.data.profiles]
-
                 if (!response.data.profiles.length) {
                     endReached.value = true
                 }
             })
-            .catch(() => {
+            .catch((error) => {
+                console.log(error)
             })
 
         isLoading.value = false
