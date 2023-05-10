@@ -20,9 +20,8 @@ onMounted(async () => {
     const eventSource = new EventSource(url);
 
     eventSource.onmessage = async () => {
-        if (route.name === 'messages') {
-            await getChatList()
-        }
+        await getChatList()
+
     }
 
     eventSource.onopen = async () => {

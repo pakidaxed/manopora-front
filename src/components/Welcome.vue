@@ -3,10 +3,17 @@
         <img src="../assets/images/manopora_logo.png" class="w-image-wrap--has-ratio" alt="manopora.lt logotipas">
     </div>
     <div v-if="!$waveui.breakpoint.sm && !$waveui.breakpoint.xs">
-        <h1 class="white dimmed-background pa3 pb0">heading text</h1>
-        <p class="white dimmed-background pa3">Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. A ad adipisci aliquid consequatur delectus distinctio dolor ea et exercitationem impedit
-            in, laborum molestias nesciunt nobis odio omnis porro provident rem repellendus rerum tempora voluptates
-            voluptatibus.</p>
+        <h1 class="white dimmed-background pa3 pb0">Sveiki atvykę,</h1>
+        <p class="white dimmed-background pa3">Mes esame svetainė, kurioje galite susipažinti su naujais žmonėmis ir
+            surasti savo antrąją pusę. Mes tikimės, kad jūs jausitės šiltai priimti ir rasite čia daug gerų draugų ir
+            galbūt net savo gyvenimo meilę.
+            <br/><br/>
+            Mes norime, kad ši svetainė būtų jums ne tik vieta, kur susipažinti su kitais žmonėmis, bet ir malonus ir
+            draugiškas bendravimo kampelis. Todėl mes visada stengsimės užtikrinti jums saugų ir patogų svetainės
+            naudojimą.
+            <br/><br/>
+            Linkime jums malonių akimirkų šioje svetainėje ir sėkmės paieškose!</p>
     </div>
 </template>
+<script setup>
+</script>

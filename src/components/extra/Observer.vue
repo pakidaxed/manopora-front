@@ -1,5 +1,7 @@
 <template>
-    <div class="observer" ref="root"></div>
+    <div ref="root">
+        <w-spinner class="mt2" color="mp-color" xl size="xl"/>
+    </div>
 </template>
 <script setup>
 import {ref, onMounted} from "vue";
@@ -21,10 +23,8 @@ onMounted(() => {
 })
 </script>
 <style scoped>
-.observer {
-    text-align: center;
-    height: 30px;
-    width: 30px;
-    border: 1px solid red;
+div {
+    display: flex;
+    justify-content: center;
 }
 </style>

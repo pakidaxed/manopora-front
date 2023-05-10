@@ -7,18 +7,17 @@ export const useUsersStore = defineStore('users', () => {
     const userProfile = ref(null)
     const isLoading = ref(false)
     const errors = ref(null)
-    const endReached = ref(false)
+    const endReached = ref(true)
     const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
 
     const getFirstUserProfiles = async (searchValues) => {
         isLoading.value = true
         await axios.get(apiBaseUrl.value + '/user/profiles?city=' + searchValues.city)
             .then((response) => {
-                console.log(response.data)
                 userProfiles.value = response.data.profiles
+                endReached.value = false
             })
             .catch((error) => {
-                console.log(error)
             })
 
         isLoading.value = false
@@ -55,7 +54,6 @@ export const useUsersStore = defineStore('users', () => {
 
         isLoading.value = false
     }
-
 
     return {isLoading, errors, endReached, userProfiles, userProfile, getFirstUserProfiles, getNextUserProfiles, getSingleUserProfile}
 })

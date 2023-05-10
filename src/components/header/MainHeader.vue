@@ -11,7 +11,7 @@ const userStore = useUserStore()
 const {mainUsername} = storeToRefs(userStore)
 
 const chatStore = useChatStore()
-const {getChatList} = chatStore
+const {getTotalMessagesCount} = chatStore
 const {totalNewMessages} = storeToRefs(chatStore)
 
 onMounted(async () => {
@@ -20,13 +20,11 @@ onMounted(async () => {
     const eventSource = new EventSource(url);
 
     eventSource.onmessage = async () => {
-        if (route.name === 'messages') {
-            await getChatList()
-        }
+            await getTotalMessagesCount()
     }
 
     eventSource.onopen = async () => {
-        await getChatList()
+            await getTotalMessagesCount()
     }
 })
 </script>
@@ -42,7 +40,7 @@ onMounted(async () => {
             <w-button icon="mdi mdi-account-search" text lg color="black"></w-button>
         </RouterLink>
         <RouterLink to="/notifications">
-            <w-badge top right overlap bg-color="mp-color" color="white">
+            <w-badge top right overlap bg-color="hidden" color="white">
                 <template #badge>0</template>
                 <w-button icon="mdi mdi-bell-outline" text lg class="ml3" color="black"></w-button>
             </w-badge>

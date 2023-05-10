@@ -8,6 +8,8 @@ import {usePropertiesStore} from "../stores/props/properties";
 import {useUserStore} from "../stores/auth/user";
 import {usePictureStore} from "../stores/user/picture";
 
+const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
+
 const userProfileStore = useProfileStore()
 const {getUserProfile, updateUserProfile} = userProfileStore
 const {isLoading, errors, success, profileValid, userProfile} = storeToRefs(userProfileStore)
@@ -59,6 +61,7 @@ const createCities = () => {
 
 const handleProfileUpdate = async () => {
     await updateUserProfile(myProfile)
+    await getUserProfile()
     if (!errors.value) {
         updateSuccessful.value = true
         setTimeout(() => {
@@ -181,7 +184,7 @@ onMounted(async () => {
             <div class="spacer px2"></div>
             <div>
                 <div class="my-profile-info-picture text-center">
-                    <img :src="'http://mp.lt/picture/' + mainPicture" alt="" width="300">
+                    <img :src="apiBaseUrl + '/picture/' + mainPicture" alt="" width="300">
                 </div>
                 <div class="my-profile-info-picture-link text-center">
                     <RouterLink to="/pictures">

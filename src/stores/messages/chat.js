@@ -16,10 +16,10 @@ export const useChatStore = defineStore('chat', () => {
         await axios.get(apiBaseUrl.value + '/chat/list')
             .then((response) => {
                 chats.value = response.data.chats
-                totalNewMessages.value = 0
-                chats.value.forEach(chat => {
-                    totalNewMessages.value += Number(chat.newMessages)
-                })
+                // totalNewMessages.value = 0
+                // chats.value.forEach(chat => {
+                //     totalNewMessages.value += Number(chat.newMessages)
+                // })
                 errors.value = null
             })
             .catch(() => {
@@ -57,5 +57,28 @@ export const useChatStore = defineStore('chat', () => {
         isLoading.value = false
     }
 
-    return {isLoading, errors , messages, profileValid, chats, totalNewMessages, getChatMessages, sendChatMessage, getChatList}
+    const getTotalMessagesCount = async () => {
+        isLoading.value = true
+        await axios.get(apiBaseUrl.value + '/chat/message/count')
+            .then((response) => {
+                totalNewMessages.value = 0
+                totalNewMessages.value += response.data.totalNewMessagesCount
+            })
+            .catch(() => {
+            })
+        isLoading.value = false
+    }
+
+    return {
+        isLoading,
+        errors,
+        messages,
+        profileValid,
+        chats,
+        totalNewMessages,
+        getChatMessages,
+        sendChatMessage,
+        getChatList,
+        getTotalMessagesCount
+    }
 })

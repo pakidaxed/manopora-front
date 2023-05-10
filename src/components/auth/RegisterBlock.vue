@@ -4,13 +4,12 @@ import {useUserStore} from "../../stores/auth/user";
 import {storeToRefs} from "pinia";
 import InputErrorAlert from "./InputErrorAlert.vue";
 
+const emit = defineEmits(['someEvent'])
 const userStore = useUserStore()
 const {isLoading, errors} = storeToRefs(userStore)
 const registerSuccessful = ref(false)
 const {registerUser} = userStore
 
-// TODO removing po registracijos values is inputo
-// TODO sutvakryt success riekalus, modalas t.t.
 const handleRegister = async () => {
     await registerUser(newUserCredentials)
 
@@ -30,17 +29,13 @@ const newUserCredentials = reactive({
     terms: false
 })
 
+const handleAfterRegistration = () => {
+    registerSuccessful.value = false
+    emit('someEvent')
+}
+
 </script>
 <template>
-    <w-dialog
-        v-model="registerSuccessful"
-        title="Dialog title">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.<br />
-        Unde eum non necessitatibus quia corporis odio numquam sequi iusto
-        voluptatum delectus? Excepturi minus iste, provident non totam itaque
-        sed ut labore?<br /><br />
-        <w-button color="primary" size="large" @click="registerSuccessful = false">Supratau</w-button>
-        </w-dialog>
     <w-card class="dimmed-background box-shadow">
         <div>
             <img src="../../assets/images/login_face.jpg" alt="Vartotojo nuotraukos pavizdys"/>
@@ -76,7 +71,9 @@ const newUserCredentials = reactive({
             </w-input>
             <InputErrorAlert :errors="errors" input-field="password"/>
             <div class="d-flex">
-                <w-checkbox v-model="newUserCredentials.terms" label-color="white" color="mp-color">Su sąlygomis sutinku</w-checkbox>
+                <w-checkbox v-model="newUserCredentials.terms" label-color="white" color="mp-color">Su sąlygomis
+                    sutinku
+                </w-checkbox>
             </div>
             <InputErrorAlert :errors="errors" input-field="terms"/>
             <w-button class="mt6 mb4 py6 px4" color="white" bg-color="mp-color"
@@ -85,6 +82,18 @@ const newUserCredentials = reactive({
         </div>
         <w-spinner color="mp-color" v-else/>
     </w-card>
+    <w-dialog
+        v-model="registerSuccessful"
+        width="500"
+        title="Registracija sėkminga">
+        Jūsų paskyra sėkmingai sukurta.
+        <br /><br />
+        Dabar laikas pradėti linksmybes ir susipažinti su mūsų bendruomene! Norėdami
+        pasinaudoti visais mūsų svetainės funkcionalumais, turite prisijungti.
+        <br/><br/>
+        Linkime jums malonių akimirkų mūsų svetainėje!<br/><br/>
+        <w-button color="white" bg-color="mp-color" class="p10" lg @click="handleAfterRegistration">Supratau</w-button>
+    </w-dialog>
 </template>
 
 <style scoped>
@@ -119,6 +128,7 @@ img {
 
 .w-button {
     font-size: 30px;
+    padding: 25px 30px;
 }
 </style>
 <script setup>

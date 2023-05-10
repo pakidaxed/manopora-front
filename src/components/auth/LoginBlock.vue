@@ -40,7 +40,8 @@ onMounted(() => {
                      v-model="userCredentials.password"
                      type="password"
                      color="white"
-                     label-color="white">
+                     label-color="white"
+                     @keyup.enter="handleLogin">
                 <w-icon class="mr4">mdi mdi-eye</w-icon>
                 <span>Slaptažodis</span>
             </w-input>
