@@ -23,21 +23,43 @@ const message = reactive({
     'message': null,
 })
 
-
 const sendMessage = async () => {
     await sendChatMessage(message)
     await getChatMessages(props.username)
     message.message = null
 }
 
+const getTimeAgo = (datetime) => {
+    const currentDate = new Date();
+    const targetDate = new Date(datetime);
+
+    const timeDifference = currentDate - targetDate;
+    const minutes = Math.floor(timeDifference / 60000);
+
+    if (minutes < 1) {
+        return 'Katik';
+    } else if (minutes === 1) {
+        return 'prieš 1 minutę';
+    } else if (minutes < 60) {
+        return 'prieš ' + minutes + ' min.';
+    } else if (minutes < 1440) {
+        const hours = Math.floor(minutes / 60);
+        return 'prieš ' + hours + ' val.';
+    } else {
+        const days = Math.floor(minutes / 1440);
+        return 'prieš ' +days + ' d.';
+    }
+}
+
 
 onMounted(async () => {
+    await getChatMessages(props.username)
     const url = new URL('http://localhost:3000/.well-known/mercure');
     url.searchParams.append('topic', 'chat/' + mainUsername.value);
     const eventSource = new EventSource(url);
 
     eventSource.onmessage = async () => {
-        if (route.redirectedFrom.name === 'messages' && route.name === 'chat') {
+        if (route.name === 'chat') {
             await getChatMessages(props.username)
         }
     }
@@ -56,57 +78,87 @@ onMounted(async () => {
         </div>
         <div class="main-chat-window">
             <div class="main-chat-window-message" v-for="chatMessage in messages" :key="chatMessage.id" :class="chatMessage.username === mainUsername ? 'me' : ''">
-                <p>{{ chatMessage.username }}</p>
+                <p class="mb1"> <span>{{ getTimeAgo(chatMessage.createdAt) }}</span></p>
                 <h6 :class="chatMessage.username === mainUsername ? 'me' : ''">{{ chatMessage.message }}</h6>
-                <br/>
             </div>
         </div>
-        <div>
+        <div class="d-flex">
             <input class="w-input" type="text" v-model.trim="message.message" @keyup.enter="sendMessage" autofocus>
-            <button class="w-button" @click="sendMessage">SEND</button>
+            <w-button class="w-button py6" xl bg-color="mp-color" color="white" @click="sendMessage">
+                <w-icon class="mr3">mdi mdi-send</w-icon>
+                Siųsti</w-button>
         </div>
     </main>
 </template>
 <style scoped>
 .main-chat-window {
-    border: 1px solid black;
-    display: flex;
     flex-direction: column;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
     height: 600px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
-h6.me {
-    border-radius: 5px;
-    background-color: deeppink;
-    color: white;
-    padding: 5px;
-    float: left;
+.main-chat-window span {
+    font-size: 12px;
 }
+
+.main-chat-window::-webkit-scrollbar {
+    width: 0.5em; /* Set the width of the scrollbar */
+}
+
+.main-chat-window::-webkit-scrollbar-track {
+    background: transparent; /* Set the background color of the scrollbar track */
+}
+
+.main-chat-window::-webkit-scrollbar-thumb {
+    background-color: pink; /* Set the color of the scrollbar thumb */
+    border-radius: 0.25em; /* Set the border radius of the scrollbar thumb */
+}
+
+.main-chat-window::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Set the color of the scrollbar thumb on hover */
+}
+
+input {
+    font-family: 'Comfortaa', cursive;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid silver;
+    border-left: 5px solid #F1527EFF;
+}
+
+
 
 .main-chat-window-message {
-    border: 1px solid red;
-    height: 50px;
-    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.main-chat-window-message.me {
+    display: flex;
+    align-items: flex-end;
 }
 
 h6 {
     border-radius: 5px;
-    background-color: lightslategray;
+    background-color: #F1527EFF;
+    //background-color: #527EF1;
+    //background-color: #52F1C5;
     color: white;
-    padding: 5px;
-    float: left;
-}
-div.me {
-    align-items: flex-start;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: normal;
 }
 
-.div {
-    align-items: flex-end;
+.me h6 {
+    background-color: #a6a6a6;;
+}
+.me div {
+    align-items: flex-start;
 }
 
 </style>

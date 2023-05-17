@@ -64,7 +64,7 @@ const props = defineProps(['profile'])
     margin: 0 auto;
     border: 1px solid black;
     position: relative;
-    min-height: 600px;
+    min-height: 500px;
 }
 
 .profile-card-description {

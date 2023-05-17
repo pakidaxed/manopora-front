@@ -50,12 +50,12 @@ onMounted(async () => {
 
 .chat-card {
     font-size: 35px;
-    border-bottom: 1px solid black;
-    padding: 20px 5px;
+    border-bottom: 1px solid silver;
+    padding: 15px 5px;
 }
 img {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     border-radius: 50px;
     margin-right: 20px;
     object-fit: cover;

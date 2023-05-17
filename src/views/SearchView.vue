@@ -88,7 +88,7 @@ onMounted(async () => {
 
 
 .profile-card {
-    min-height: 600px;
+    min-height: 500px;
     margin-bottom: 30px;
     width: 100%;
 }
