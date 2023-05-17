@@ -67,6 +67,7 @@ onMounted(async () => {
                     v-for="profile in userProfiles"
                     :key="profile.id"
                     class="profile-card d-flex"
+                    :class="$waveui.breakpoint.md || $waveui.breakpoint.lg || $waveui.breakpoint.xl ? '' : 'profile-card-mobile align-center'"
             >
                 <UserProfileCard :profile="profile" />
             </div>
@@ -86,14 +87,14 @@ onMounted(async () => {
 }
 
 
-
 .profile-card {
     min-height: 600px;
     margin-bottom: 30px;
     width: 100%;
 }
 
-.profile-card-description h2 {
-
+.profile-card-mobile {
+    flex-direction: column;
 }
+
 </style>

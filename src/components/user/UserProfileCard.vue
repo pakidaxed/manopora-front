@@ -12,7 +12,7 @@ const props = defineProps(['profile'])
         </div>
     </div>
     <div class="profile-card-description"
-         v-if="$waveui.breakpoint.md || $waveui.breakpoint.lg || $waveui.breakpoint.xl">
+        >
         <h2 class="mb4">{{ props.profile.name }}, {{ props.profile.age }}
             <w-icon xl color="mp-color ml6 mb1">mdi mdi-near-me</w-icon>
             {{ props.profile.cityTitle }}
@@ -21,7 +21,13 @@ const props = defineProps(['profile'])
         <h2 class="my4 pb2 mp-color">Aprašymas:</h2>
         <p>{{ props.profile.description }}</p>
         <div class="text-center mt5">
-            <RouterLink :to="'/user/' + props.profile.username">
+            <RouterLink :to="'/chat/' + props.profile.username">
+                <w-button xl color="white" bg-color="mp-color" class="mt5 pa6 ml5">
+                    <w-icon class="mr1">mdi mdi-email-outline</w-icon>
+                    Parašyti žinutę
+                </w-button>
+            </RouterLink>
+            <RouterLink :to="'/user/' + props.profile.username" v-if="this.$route.name !== 'user'">
                 <w-button xl color="white" bg-color="mp-color" class="mt5 pa6 ml5">
                     <w-icon class="mr1">mdi mdi-account</w-icon>
                     Pilnas profilis
@@ -38,10 +44,15 @@ const props = defineProps(['profile'])
 
 .card-picture-text-background {
     background: rgb(255,255,255);
-    background: linear-gradient(0deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 20%);
+    background: linear-gradient(7deg, rgba(255,255,255,0.8), rgba(255,255,255,0) 30%);
     z-index: 1;
     width: 100%;
     height: 100%;
+    position: absolute;
+}
+
+.profile-card-mobile .profile-card-description {
+    border-left: 1px solid black;
 }
 
 .profile-card-picture {
@@ -53,6 +64,7 @@ const props = defineProps(['profile'])
     margin: 0 auto;
     border: 1px solid black;
     position: relative;
+    min-height: 600px;
 }
 
 .profile-card-description {
@@ -61,6 +73,11 @@ const props = defineProps(['profile'])
     border-top: 1px solid black;
     border-right: 1px solid black;
     border-bottom: 1px solid black;
+}
+
+.profile-card-mobile .profile-card-description {
+    max-width: 450px;
+    text-align: center;
 }
 .profile-card-picture h1 {
     position: absolute;

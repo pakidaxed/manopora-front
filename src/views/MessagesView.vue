@@ -3,10 +3,8 @@ import {onMounted, ref} from "vue";
 import {useChatStore} from "../stores/messages/chat";
 import {storeToRefs} from "pinia";
 import {useUserStore} from "../stores/auth/user";
-import {useRoute} from "vue-router";
 
-const route = useRoute()
-
+const apiBaseUrl = ref(import.meta.env.VITE_API_BASE_URL)
 const userStore = useUserStore()
 const {mainUsername} = storeToRefs(userStore)
 
@@ -37,15 +35,38 @@ onMounted(async () => {
         </div>
         <div v-for="chat in chats" :key="chat.id">
             <RouterLink :to="'/chat/' + chat.user2">
-                <div class="chat-card">@{{ chat.user2 }} - {{ chat.newMessages }}</div>
+                <div class="chat-card d-flex">
+                    <img :src="apiBaseUrl + '/picture/' + (chat.mainImage ?? 'user_no_picture.jpg')" alt="">
+                    {{ chat.user2 }}
+                    <w-badge class="ml2" :bg-color="Number(chat.newMessages) !== 0 ? 'mp-color' : 'hidden'" color="white" xl>
+                    <template v-if="chat.newMessages !== 0" #badge>{{ chat.newMessages }}</template>
+                </w-badge>
+                </div>
             </RouterLink>
         </div>
     </main>
 </template>
 <style scoped>
+
 .chat-card {
     font-size: 35px;
     border-bottom: 1px solid black;
     padding: 20px 5px;
+}
+img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+span {
+    padding-top: 7px;
+    padding-left: 14px;
+    margin-left: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: pink;
+    border-radius: 50px;
 }
 </style>
